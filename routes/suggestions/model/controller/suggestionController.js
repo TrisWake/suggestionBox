@@ -10,7 +10,7 @@ try {
     res.status(500).json({message:"Server Error", error: error.message})
 }
 }
- 
+
 const singleSuggestion = async (req, res)=>{
     const {id} = req.params
     try {
