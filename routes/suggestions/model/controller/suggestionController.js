@@ -41,18 +41,36 @@ const updateSuggestion = async (req, res)=>{
     const {id} = req.params
     const {title, suggestion} = req.body
     try {
-        Suggestions.findById(
-            id,
-            {title, suggestion},
-            {new: true}
+        const updatedSuggestion = await Suggestions.findByIdAndUpdate(
+          id,
+          { title, suggestion },
+          { new: true }  
         )
-        
-    } catch (error) {
-        
+        res.status(200).json({
+          message: "Suggestion updated successfully",
+          payload: updatedSuggestion,
+        });
+      } catch (error) {
+        res.status(500).json({ message: "Failed to update suggestion", error: error.message })
+      }
     }
-}
-
+    
+    const deleteSuggestion = async (req, res) => {
+        const { id } = req.params
+      try {
+          const deletedSuggestion = await Suggestions.findByIdAndDelete(id)
+          res.status(200).json({
+            message: "Suggestion deleted successfully",
+          })
+        } catch (error) {
+          res.status(500).json({ message: "Failed to delete suggestion", error: error.message })
+        }
+      }
+      
 module.exports = {
     getAllSuggestions,
-    singleSuggestion
+    singleSuggestion,
+    createSuggestion,
+    updateSuggestion,
+    deleteSuggestion
 }
